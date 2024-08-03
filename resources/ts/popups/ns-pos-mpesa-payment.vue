@@ -19,7 +19,7 @@
           <span>{{ nsCurrency(order.change) }}</span>
         </div>
         <div id="change" class="col-span-2 h-16 flex justify-between items-center elevation-surface border text-xl md:text-3xl p-2">
-          <span>{{ __('Screen') }} : </span>
+          <span>{{ __('Paid From Mpesa') }} : </span>
           <span>{{ nsCurrency(backValue / number) }}</span>
         </div>
       </div>
