@@ -18,9 +18,13 @@
           <span>{{ __('Change') }} : </span>
           <span>{{ nsCurrency(order.change) }}</span>
         </div>
-        <div id="change" class="col-span-2 h-16 flex justify-between items-center elevation-surface border text-xl md:text-3xl p-2">
-          <span>{{ __('Paid From Mpesa') }} : </span>
+        <div id="paid-mpesa" class="col-span-2 h-16 flex justify-between items-center elevation-surface border text-xl md:text-3xl p-2">
+          <span>{{ __('To Be Paid From Mpesa') }} : </span>
           <span>{{ nsCurrency(backValue / number) }}</span>
+        </div>
+        <div id="paid-mpesa" class="col-span-2 h-16 flex justify-between items-center elevation-surface border text-xl md:text-3xl p-2">
+          <span>{{ __('Paid From Mpesa') }} : </span>
+          <span>{{ nsCurrency(paidAmount) }}</span>
         </div>
       </div>
     </div>
@@ -44,27 +48,23 @@
             </div>
           </div>
         </div>
-        <div class="w-1/2 md:w-72 pr-2 pl-1">
+        <div class="w-full md:w-72 pr-2 pl-1 mt-2">
           <div class="grid grid-flow-row grid-rows-1 gap-2">
-            <div
-                v-for="(amount, index) of amountShortcuts" :key="index"
-                @click="increaseBy({ value: amount })"
-                class="ns-numpad-key text-2xl border h-16 flex items-center justify-center cursor-pointer">
-              <span>{{ nsCurrency(amount) }}</span>
+            <div id="mpesa-payment" class="h-16 flex items-center border elevation-surface text-xl md:text-3xl p-2 mb-2">
+              <input
+                  v-model="phoneNumber"
+                  type="text"
+                  class="w-full text-xl md:text-3xl p-2 border rounded-md shadow-md"
+                  placeholder="Enter Phone Number"
+                  @focus="onPhoneNumberFocus"
+                  @blur="onPhoneNumberBlur"
+              />
             </div>
+            <button @click="makeMpesaPayment()" class="bg-green-500 text-white text-xl md:text-3xl p-2 rounded-md shadow-md hover:bg-green-600 w-full">
+              {{ __('Pay with Mpesa') }}
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="px-2 pb-2">
-      <div class="grid grid-cols-2 gap-2">
-        <div id="mpesa-payment" class="col-span-2 h-16 flex justify-between items-center border elevation-surface text-xl md:text-3xl p-2">
-          <span>{{ __('Mpesa Payment') }} :</span>
-          <input v-model="phoneNumber" type="text" class="w-full text-xl md:text-3xl p-2 border" placeholder="Enter Phone Number" />
-        </div>
-        <button @click="makeMpesaPayment()" class="col-span-2 bg-green-500 text-white text-xl md:text-3xl p-2 mt-2">
-          {{ __('Pay with Mpesa') }}
-        </button>
       </div>
     </div>
   </div>
@@ -98,6 +98,8 @@ export default {
       orderSubscription: null,
       allSelected: true,
       phoneNumber: '',
+      paidAmount: 0,
+      focused: false, // Track if phone number input is focused
       keys: [
         ...([7, 8, 9].map(key => ({ identifier: key, value: key }))),
         ...([4, 5, 6].map(key => ({ identifier: key, value: key }))),
@@ -123,34 +125,10 @@ export default {
       this.settings = settings;
     });
 
-    const numbers = (new Array(10)).fill('').map((v, i) => i);
-
-    nsHotPress
-        .create('numpad-keys')
-        .whenVisible(['.is-popup'])
-        .whenPressed(numbers, (event, value) => { this.inputValue({ value: value }); });
-
-    nsHotPress
-        .create('numpad-backspace')
-        .whenVisible(['.is-popup'])
-        .whenPressed('backspace', () => this.inputValue({ identifier: 'backspace' }));
-
-    nsHotPress
-        .create('numpad-save')
-        .whenVisible(['.is-popup'])
-        .whenPressed('enter', () => {
-          if (this.backValue === '') {
-            this.$emit('submit');
-            this.backValue = 0;
-          } else {
-            this.inputValue({ identifier: 'next' });
-          }
-        });
+    this.setupKeyboardListeners();
   },
   beforeDestroy() {
-    nsHotPress.destroy('numpad-keys');
-    nsHotPress.destroy('numpad-backspace');
-    nsHotPress.destroy('numpad-save');
+    this.removeKeyboardListeners();
   },
   unmounted() {
     this.orderSubscription.unsubscribe();
@@ -158,6 +136,54 @@ export default {
   methods: {
     __,
     nsCurrency,
+    setupKeyboardListeners() {
+      const numbers = (new Array(10)).fill('').map((v, i) => i);
+
+      nsHotPress
+          .create('numpad-keys')
+          .whenVisible(['.is-popup'])
+          .whenPressed(numbers, (event, value) => {
+            if (!this.focused) {
+              this.inputValue({ value: value });
+            }
+          });
+
+      nsHotPress
+          .create('numpad-backspace')
+          .whenVisible(['.is-popup'])
+          .whenPressed('backspace', () => {
+            if (!this.focused) {
+              this.inputValue({ identifier: 'backspace' });
+            }
+          });
+
+      nsHotPress
+          .create('numpad-save')
+          .whenVisible(['.is-popup'])
+          .whenPressed('enter', () => {
+            if (!this.focused) {
+              if (this.backValue === '') {
+                this.$emit('submit');
+                this.backValue = 0;
+              } else {
+                this.inputValue({ identifier: 'next' });
+              }
+            }
+          });
+    },
+    removeKeyboardListeners() {
+      nsHotPress.destroy('numpad-keys');
+      nsHotPress.destroy('numpad-backspace');
+      nsHotPress.destroy('numpad-save');
+    },
+    onPhoneNumberFocus() {
+      this.focused = true;
+      this.removeKeyboardListeners(); // Remove keyboard listeners
+    },
+    onPhoneNumberBlur() {
+      this.focused = false;
+      this.setupKeyboardListeners(); // Re-add keyboard listeners
+    },
     toggleDiscount() {
       if (this.settings.cart_discount !== undefined && this.settings.cart_discount === true) {
         Popup.show(nsPosDiscountPopupVue, {
@@ -223,7 +249,10 @@ export default {
           this.backValue = '0';
           this.allSelected = false;
         } else {
-          this.backValue = this.backValue.substr(1);
+          this.backValue = this.backValue.slice(0, -1);
+          if (this.backValue === '') {
+            this.backValue = '0';
+          }
         }
       } else if (key.value.toString().match(/^\d+$/)) {
         if (this.allSelected) {
@@ -245,11 +274,15 @@ export default {
     async makeMpesaPayment() {
       try {
         const response = await axios.post('/api/mpesa/stkpush', {
-          amount: this.order.total,
+          amount: this.backValue, // Changed to use backValue
           phoneNumber: this.phoneNumber,
         });
         if (response.data.success) {
-          nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.'));
+            nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.'));
+            this.paidAmount = parseFloat(this.backValue / this.number)
+            this.inputValue({ identifier: 'next' });
+            this.$emit('submit');
+            this.backValue = 0;
         } else {
           nsSnackBar.error(__('Failed to initiate STK Push. Please try again.'));
         }
@@ -260,3 +293,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Add any additional styling here */
+</style>
