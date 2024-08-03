@@ -80,7 +80,7 @@ import { nsCurrency } from '~/filters/currency';
 import axios from 'axios';
 
 export default {
-  name: 'sample-payment',
+  name: 'mpesa-payment',
   props: ['label', 'identifier'],
   data() {
     return {
