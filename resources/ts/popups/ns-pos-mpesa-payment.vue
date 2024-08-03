@@ -278,16 +278,13 @@ export default {
           phoneNumber: this.phoneNumber,
         });
         if (response.data.success) {
-            nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.'));
+            nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.')).subscribe();
             this.paidAmount = parseFloat(this.backValue / this.number)
-            this.inputValue({ identifier: 'next' });
-            this.$emit('submit');
-            this.backValue = 0;
         } else {
-          nsSnackBar.error(__('Failed to initiate STK Push. Please try again.'));
+          nsSnackBar.error(__('Failed to initiate STK Push. Please try again.')).subscribe();
         }
       } catch (error) {
-        nsSnackBar.error(__('An error occurred while initiating STK Push.'));
+        nsSnackBar.error(__('An error occurred while initiating STK Push.')).subscribe();
       }
     }
   }
