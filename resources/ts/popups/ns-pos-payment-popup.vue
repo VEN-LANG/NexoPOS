@@ -82,6 +82,8 @@ export default {
                 case 'account-payment':
                     this.currentPaymentComponent    =   shallowRef( AccountPayment );
                 break;
+              case 'mpesa-payment':
+                    this.currentPaymentComponent    =   shallowRef(MpesaPayment);
                 default: 
                     this.currentPaymentComponent    =   shallowRef( samplePaymentVue );
                 break;
