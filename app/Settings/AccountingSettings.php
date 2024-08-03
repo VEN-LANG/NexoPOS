@@ -78,6 +78,36 @@ class AccountingSettings extends SettingsPage
                     ),
                 )
             ),
+            SettingForm::tab(
+                identifier: 'mpesa',
+                label: __( 'Mpesa' ),
+                fields: SettingForm::fields(
+                    FormInput::text(
+                        label: __( 'Mpesa API Key' ),
+                        name: 'ns_accounting_mpesa_api_key',
+                        description: __( 'Enter the Mpesa API Key' ),
+                        value: ns()->option->get( 'ns_accounting_mpesa_api_key' ),
+                    ),
+                    FormInput::text(
+                        label: __( 'Mpesa API Secret' ),
+                        name: 'ns_accounting_mpesa_api_secret',
+                        description: __( 'Enter the Mpesa API Secret' ),
+                        value: ns()->option->get( 'ns_accounting_mpesa_api_secret' ),
+                    ),
+                    FormInput::text(
+                        label: __( 'Mpesa Shortcode' ),
+                        name: 'ns_accounting_mpesa_shortcode',
+                        description: __( 'Enter the Mpesa Shortcode' ),
+                        value: ns()->option->get( 'ns_accounting_mpesa_shortcode' ),
+                    ),
+                    FormInput::text(
+                        label: __( 'Mpesa Callback URL' ),
+                        name: 'ns_accounting_mpesa_callback_url',
+                        description: __( 'Enter the Mpesa Callback URL' ),
+                        value: ns()->option->get( 'ns_accounting_mpesa_callback_url' ),
+                    )
+                )
+            )
         ];
     }
 }
