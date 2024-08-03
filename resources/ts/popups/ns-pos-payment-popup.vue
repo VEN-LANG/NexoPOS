@@ -9,6 +9,7 @@ import BankPayment from '~/pages/dashboard/pos/payments/bank-payment.vue';
 import AccountPayment from '~/pages/dashboard/pos/payments/account-payment.vue';
 import nsPosLoadingPopupVue from './ns-pos-loading-popup.vue';
 import samplePaymentVue from '~/pages/dashboard/pos/payments/sample-payment.vue';
+import NsPosMpesaPayment from "~/popups/ns-pos-mpesa-payment.vue";
 import nsSelectPopupVue from './ns-select-popup.vue';
 import { nsCurrency, nsRawCurrency } from '~/filters/currency';
 import { ref } from 'vue';
@@ -83,7 +84,7 @@ export default {
                     this.currentPaymentComponent    =   shallowRef( AccountPayment );
                 break;
               case 'mpesa-payment':
-                    this.currentPaymentComponent    =   shallowRef(MpesaPayment);
+                    this.currentPaymentComponent    =   shallowRef( NsPosMpesaPayment );
                 default: 
                     this.currentPaymentComponent    =   shallowRef( samplePaymentVue );
                 break;
