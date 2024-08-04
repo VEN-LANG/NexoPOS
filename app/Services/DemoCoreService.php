@@ -205,6 +205,22 @@ class DemoCoreService
         ] );
 
         ns()->option->set( 'ns_customer_debitting_cashflow_account', TransactionAccount::account( '008' )->first()->id );
+
+        $transactionService->createAccount( [
+            'name' => __('MPESA In Account'),
+            'operation' => 'credit',
+            'account' => '012',
+        ]);
+
+        ns()->option->set('ns_accounting_mpesain_accounts', TransactionAccount::account( '012' )->first()->id );
+
+        $transactionService->createAccount( [
+            'name' => __('MPESA Out Account'),
+            'operation' => 'debit',
+            'account' => '013',
+        ]);
+
+        ns()->option->set('ns_accounting_mpesaout_accounts', TransactionAccount::account( '013' )->first()->id );
     }
 
     public function createCustomers()
