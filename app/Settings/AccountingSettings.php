@@ -105,6 +105,27 @@ class AccountingSettings extends SettingsPage
                             description: __( 'Enter the Mpesa Callback URL' ),
                             value: ns()->option->get( 'ns_accounting_mpesa_callback_url' ),
                         ),
+                        FormInput::multiselect(
+                            label: __( 'Allowed Mpesa In Account' ),
+                            name: 'ns_accounting_mpesain_accounts',
+                            description: __( 'Define on which accounts Mpesa in transactions are allowed' ),
+                            options: $creditAccount,
+                            value: ns()->option->get( 'ns_accounting_mpesain_accounts' ),
+                        ),
+                        FormInput::multiselect(
+                            label: __( 'Allowed Mpesa Out Account' ),
+                            name: 'ns_accounting_mpesaout_accounts',
+                            description: __( 'Define on which accounts mpesaout transactions are allowed' ),
+                            options: $debitAccounts,
+                            value: ns()->option->get( 'ns_accounting_mpesaout_accounts' ),
+                        ),
+                        FormInput::select(
+                            label: __( 'Allow Mpesa Transactions' ),
+                            name: 'ns_accounting_mpesaallowed_accounts',
+                            description: __( 'Allowed Mpesa Transactions' ),
+                            options: [['label' => __('Yes'), 'value'=> __('yes')], ['label' => __('No'), 'value'=> __('no')],],
+                            value: ns()->option->get( 'ns_accounting_mpesaallowed_accounts' ),
+                        ),
                     )
                 )
             ),
