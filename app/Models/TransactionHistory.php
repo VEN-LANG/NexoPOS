@@ -97,6 +97,16 @@ class TransactionHistory extends NsModel
      */
     const ACCOUNT_EQUITY = '011';
 
+    /**
+     * Unique Identifier for mpesa in transactions
+     */
+    const ACCOUNT_MPESA_IN = '012';
+
+    /**
+     * Unique Identifier for mpesa out transactions
+     */
+    const ACCOUNT_MPESA_OUT = '013';
+
     public $fillable    =   [
         'transaction_id', 
         'operation', 
