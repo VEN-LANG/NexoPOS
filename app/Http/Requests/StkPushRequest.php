@@ -15,8 +15,8 @@ class StkPushRequest extends FormRequest
     public function rules()
     {
         return [
-            'phoneNumber' => ['required','min:10', 'regex:/^(?:\+?2547\d{8}|\+?2541\d{8}|07\d{8}|01\d{8}|2547\d{8}|2541\d{8})$/'],
             'amount' => 'required','numeric','min:1',
+            'phoneNumber' => ['required','min:10', 'regex:/^(?:\+?2547\d{8}|\+?2541\d{8}|07\d{8}|01\d{8}|2547\d{8}|2541\d{8})$/'],
         ];
     }
 
@@ -24,7 +24,7 @@ class StkPushRequest extends FormRequest
     {
         return [
             'phoneNumber.required' => __('The phone number field is required.'),
-            'phoneNumber.regex' => __('Invalid phone number format.'),
+            'phoneNumber.regex' => __('Invalid phone number format or less digits.'),
             'amount.required' => __('The amount field is required.'),
             'amount.numeric' => __('The amount must be a number.'),
             'amount.min' => __('The amount must be at least 1.'),
