@@ -44,6 +44,8 @@ class TransactionService
         TransactionHistory::ACCOUNT_CUSTOMER_DEBIT => [ 'operation' => TransactionHistory::OPERATION_DEBIT, 'option' => 'ns_customer_debitting_cashflow_account' ],
         TransactionHistory::ACCOUNT_LIABILITIES => [ 'operation' => TransactionHistory::OPERATION_DEBIT, 'option' => 'ns_liabilities_account' ],
         TransactionHistory::ACCOUNT_EQUITY => [ 'operation' => TransactionHistory::OPERATION_DEBIT, 'option' => 'ns_equity_account' ],
+        TransactionHistory::ACCOUNT_MPESA_IN => ['operation' => TransactionHistory::OPERATION_CREDIT, 'option' => 'ns_accounting_mpesain_accounts' ],
+        TransactionHistory::ACCOUNT_MPESA_OUT => ['operation' => TransactionHistory::OPERATION_DEBIT, 'option' => 'ns_accounting_mpesaout_accounts' ],
     ];
 
     public function __construct( DateService $dateService )
