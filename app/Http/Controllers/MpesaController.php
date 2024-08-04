@@ -13,4 +13,11 @@ class MpesaController extends Controller
             'status' => 'success',
         ];
     }
+
+    public function syncPayment(Request $request){
+
+        return [
+            'status' => 'success',
+        ];
+    }
 }
