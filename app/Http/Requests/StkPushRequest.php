@@ -15,7 +15,7 @@ class StkPushRequest extends FormRequest
     public function rules(){
         return [
           'amount' => 'required|numeric|min:1',
-          'phoneNumber' => 'required|numeric|min:9',
+          'phoneNumber' => 'required|regex:/^\d{10,15}$/',
         ];
     }
 }
