@@ -43,14 +43,25 @@ class OrdersController extends DashboardController
             /**
              * @todo must be refactored
              */
-            $this->paymentTypes = PaymentType::orderBy( 'priority', 'asc' )
-                ->active()
-                ->get()
-                ->map( function ( $payment, $index ) {
-                    $payment->selected = $index === 0;
+            if(!(ns()->option->get( 'ns_accounting_mpesaallowed_accounts', 'no' ) === 'yes' ? true : false)) {
+                $this->paymentTypes = PaymentType::orderBy('priority', 'asc')->where('identifier', '!=', 'mpesa-payment')
+                    ->active()
+                    ->get()
+                    ->map(function ($payment, $index) {
+                        $payment->selected = $index === 0;
 
-                    return $payment;
-                } );
+                        return $payment;
+                    });
+            }else{
+                $this->paymentTypes = PaymentType::orderBy('priority', 'asc')
+                    ->active()
+                    ->get()
+                    ->map(function ($payment, $index) {
+                        $payment->selected = $index === 0;
+
+                        return $payment;
+                    });
+            }
 
             return $next( $request );
         } );
@@ -205,6 +216,7 @@ class OrdersController extends DashboardController
                 'ns_pos_allow_wholesale_price' => ns()->option->get( 'ns_pos_allow_wholesale_price', 'no' ) === 'yes' ? true : false,
                 'ns_pos_allow_decimal_quantities' => ns()->option->get( 'ns_pos_allow_decimal_quantities', 'no' ) === 'yes' ? true : false,
                 'ns_pos_force_autofocus' => ns()->option->get( 'ns_pos_force_autofocus', 'no' ) === 'yes' ? true : false,
+                'ns_accounting_mpesaallowed_accounts' => ns()->option->get( 'ns_accounting_mpesaallowed_accounts', 'no' ) === 'yes' ? true : false,
             ] ),
             'urls' => [
                 'sale_printing_url' => Hook::filter( 'ns-pos-printing-url', ns()->url( '/dashboard/orders/receipt/{id}?dash-visibility=disabled&autoprint=true' ) ),
