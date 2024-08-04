@@ -271,6 +271,13 @@ class SetupService
         $paymentType->readonly = true;
         $paymentType->author = $user->id;
         $paymentType->save();
+
+        $paymentType = new PaymentType;
+        $paymentType->label = __( 'Mpesa Account' );
+        $paymentType->identifier = 'mpesa-payment';
+        $paymentType->readonly = true;
+        $paymentType->author = $user->id;
+        $paymentType->save();
     }
 
     public function testDBConnexion()
