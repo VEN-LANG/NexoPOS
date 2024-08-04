@@ -25,6 +25,8 @@ class OrderPayment extends NsModel
 
     const PAYMENT_BANK = 'bank-payment';
 
+    const PAYMENT_MPESA = 'mpesa-payment';
+
     public function order()
     {
         return $this->belongsTo( Order::class, 'order_id', 'id' );
