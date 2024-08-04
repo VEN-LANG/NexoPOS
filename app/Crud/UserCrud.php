@@ -192,6 +192,23 @@ class UserCrud extends CrudService
      */
     public function getForm( $entry = null )
     {
+        $validRoles = [];
+        $found_admin = false;
+
+        // Check if the user has an 'admin' role
+        foreach (Auth::user()->roles as $role_) {
+            if ($role_->namespace == 'admin') {
+                $found_admin = true;
+                break;
+            }
+        }
+
+        if($found_admin){
+            $validRoles = Role::get();
+        }
+        else{
+            $validRoles = Role::where('namespace', '!=', 'admin')->get();
+        }
         return [
             'main' => [
                 'label' => __( 'Username' ),
@@ -251,7 +268,7 @@ class UserCrud extends CrudService
                             'value' => ( $entry !== null && $entry->active ? 1 : 0 ) ?? 0,
                         ], [
                             'type' => 'multiselect',
-                            'options' => Helper::toJsOptions( Role::get(), [ 'id', 'name' ] ),
+                            'options' => Helper::toJsOptions( $validRoles, [ 'id', 'name' ] ),
                             'description' => __( 'Define what roles applies to the user' ),
                             'name' => 'roles',
                             'label' => __( 'Roles' ),
