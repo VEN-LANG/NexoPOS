@@ -244,7 +244,7 @@ class CashRegistersService
              * payment that was recorded on the current register
              */
             $registerHistories    =   $payments->map( function ( OrderPayment $payment ) use ( $order, $register ) {
-                if ( in_array( $payment->identifier, [ OrderPayment::PAYMENT_CASH, OrderPayment::PAYMENT_BANK ] ) ) {
+                if ( in_array( $payment->identifier, [ OrderPayment::PAYMENT_CASH, OrderPayment::PAYMENT_BANK, OrderPayment::PAYMENT_MPESA ] ) ) {
                     $action = RegisterHistory::ACTION_SALE;
                 } elseif ( in_array( $payment->identifier, [ OrderPayment::PAYMENT_ACCOUNT ] ) ) {
                     $action = RegisterHistory::ACTION_ACCOUNT_PAY;
