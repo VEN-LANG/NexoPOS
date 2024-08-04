@@ -723,6 +723,10 @@ class TransactionService
                     break;
                 case TransactionHistory::ACCOUNT_SPOILED: $label = __( 'Spoiled Goods Account' );
                     break;
+                case TransactionHistory::ACCOUNT_MPESA_IN: $label = __( 'MPESA In Account' );
+                    break;
+                case TransactionHistory::ACCOUNT_MPESA_OUT: $label = __( 'MPESA Out Account' );
+                    break;
             }
 
             return $this->getDefinedTransactionAccount( $account[ 'option' ], [
