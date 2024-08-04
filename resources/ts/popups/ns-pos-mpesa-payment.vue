@@ -277,14 +277,45 @@ export default {
           amount: this.backValue, // Changed to use backValue
           phoneNumber: this.phoneNumber,
         });
+
         if (response.data.success) {
-            nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.')).subscribe();
-            this.paidAmount = parseFloat(this.backValue / this.number)
+          nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.')).subscribe();
+          this.paidAmount = parseFloat(this.backValue / this.number);
         } else {
-          nsSnackBar.error(__('Failed to initiate STK Push. Please try again.')).subscribe();
+          let errorMessage = __('Failed to initiate STK Push. Please try again.');
+          if (response.data.errorCode) {
+            switch (response.data.errorCode) {
+              case 'INSUFFICIENT_FUNDS':
+                errorMessage = __('Insufficient funds in the account.');
+                break;
+              case 'INVALID_PHONE_NUMBER':
+                errorMessage = __('The phone number provided is invalid.');
+                break;
+              default:
+                errorMessage = __('Failed to initiate STK Push. Error code: ') + response.data.errorCode;
+            }
+          }
+          nsSnackBar.error(errorMessage).subscribe();
         }
       } catch (error) {
-        nsSnackBar.error(__('An error occurred while initiating STK Push.')).subscribe();
+        let errorMessage = __('An error occurred while initiating STK Push.');
+        if (error.response) {
+          if (error.response.data && error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const errorMessages = Object.values(errors).flat(); // Flatten the error messages array
+
+            errorMessages.forEach(msg => {
+              setTimeout(() => {
+                nsSnackBar.error(msg).subscribe();
+              }, 1000);
+            });
+          } else if (error.response.data && error.response.data.message) {
+            errorMessage = __('An error occurred: ') + error.response.data.message;
+            nsSnackBar.error(errorMessage).subscribe();
+          }
+        } else {
+          nsSnackBar.error(errorMessage).subscribe();
+        }
       }
     }
   }
