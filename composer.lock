@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc2d071a98804bf0db55736ab30f85cc",
+    "content-hash": "34ab54426230feed4abed6092f9c8c95",
     "packages": [
         {
             "name": "brianium/paratest",
@@ -1941,6 +1941,42 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.6"
             },
             "time": "2024-03-08T09:58:59+00:00"
+        },
+        {
+            "name": "kemboielvis/mpesa-sdk-php",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kemboi22/mpesa-php-sdk.git",
+                "reference": "4bb55904652a40b25abf7784e19a975ecdd6905c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kemboi22/mpesa-php-sdk/zipball/4bb55904652a40b25abf7784e19a975ecdd6905c",
+                "reference": "4bb55904652a40b25abf7784e19a975ecdd6905c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kemboielvis\\MpesaSdkPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "kemboielvis"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/kemboi22/mpesa-php-sdk/issues",
+                "source": "https://github.com/kemboi22/mpesa-php-sdk/tree/v1.0.0"
+            },
+            "time": "2023-01-18T06:00:51+00:00"
         },
         {
             "name": "laravel/framework",

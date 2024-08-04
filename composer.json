@@ -18,6 +18,7 @@
         "fakerphp/faker": "^1.12",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "kemboielvis/mpesa-sdk-php": "^1.0",
         "laravel/framework": "^11.0",
         "laravel/reverb": "@beta",
         "laravel/sanctum": "^4.0",
