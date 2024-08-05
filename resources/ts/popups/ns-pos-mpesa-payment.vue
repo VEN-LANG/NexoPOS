@@ -280,7 +280,7 @@ export default {
         const response = await axios.post('/api/mpesa/syncPayment', {
           amount: this.backValue, // Changed to use backValue
           phoneNumber: this.phoneNumber,
-          dateTime: this.transactionDateTime,
+          dateTime: this.transactionDateTime || new Date().toDateString(),
         });
         if(response.data.success){
           nsSnackBar.success(__('Payment successfully synced/refreshed.')).subscribe()
