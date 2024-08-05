@@ -20,6 +20,10 @@ class MpesaTransactions extends Model
         "order_id"
     ];
 
+    protected $casts = [
+        'transaction_amount' => 'float',
+    ];
+
     public function order()
     {
         return $this->hasOne(Order::class, 'id', 'order_id');
