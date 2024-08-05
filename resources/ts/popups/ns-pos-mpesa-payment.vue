@@ -282,6 +282,12 @@ export default {
           phoneNumber: this.phoneNumber,
           dateTime: this.transactionDateTime,
         });
+        if(response.data.success){
+          nsSnackBar.success(__('Payment successfully synced/refreshed.'))
+          this.paidAmount = response.data.amount;
+        }else{
+          nsSnackBar.error(__(response.data.message));
+        }
       }catch (error){
         let errorMessage = __('An error occurred syncing payments for this order.');
         nsSnackBar.error(errorMessage).subscribe();
@@ -297,20 +303,13 @@ export default {
 
         if (response.data.success) {
           nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.')).subscribe();
-          this.paidAmount = parseFloat(this.backValue / this.number);
           this.transactionDateTime = response.data.transactionDateTime;
         } else {
           let errorMessage = __('Failed to initiate STK Push. Please try again.');
-          if (response.data.errorCode) {
-            switch (response.data.errorCode) {
-              case 'INSUFFICIENT_FUNDS':
-                errorMessage = __('Insufficient funds in the account.');
-                break;
-              case 'INVALID_PHONE_NUMBER':
-                errorMessage = __('The phone number provided is invalid.');
-                break;
+          if (response.data.message) {
+            switch (response.data.message) {
               default:
-                errorMessage = __('Failed to initiate STK Push. Error code: ') + response.data.errorCode;
+                errorMessage = __('Failed to initiate STK Push. Error code: ') + response.data.message;
             }
           }
           nsSnackBar.error(errorMessage).subscribe();
