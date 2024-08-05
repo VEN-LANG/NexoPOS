@@ -72,7 +72,6 @@ jobs:
             **/resources/scss/**
             **/resources/ts/**
             **/ts-tests/**
-            **/.do*
             **/.vscode/**
 
 
