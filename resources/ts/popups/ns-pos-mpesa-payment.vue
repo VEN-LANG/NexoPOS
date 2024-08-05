@@ -290,7 +290,23 @@ export default {
         }
       }catch (error){
         let errorMessage = __('An error occurred syncing payments for this order.');
-        nsSnackBar.error(errorMessage).subscribe();
+        if (error.response) {
+          if (error.response.data && error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const errorMessages = Object.values(errors).flat(); // Flatten the error messages array
+
+            errorMessages.forEach(msg => {
+              setTimeout(() => {
+                nsSnackBar.error(msg).subscribe();
+              }, 1000);
+            });
+          } else if (error.response.data && error.response.data.message) {
+            errorMessage = __('An error occurred: ') + error.response.data.message;
+            nsSnackBar.error(errorMessage).subscribe();
+          }
+        } else {
+          nsSnackBar.error(errorMessage).subscribe();
+        }
       }
 
     },
