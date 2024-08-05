@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MpesaTransactions extends Model
 {
     use HasFactory;
-
+    public string $CALL_BACK_URL = "https://api.safaricom.co.ke/mpesa/stk";
     protected $table = 'mpesa_transactions';
 
     protected $fillable = [
