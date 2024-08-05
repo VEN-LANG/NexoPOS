@@ -17,7 +17,7 @@ class MpesaController extends Controller
     {
         $mpesaService = new MpesaService();
         $data = [
-            'amount' => $request->total_amount,
+            'amount' => $request->amount,
             'phoneNumber' => $request->phoneNumber,
             'transactionType' => 'CustomerPayBillOnline',
             'accountReference' => "Mpesa payment for Order",
@@ -29,6 +29,7 @@ class MpesaController extends Controller
                 'MerchantRequestID' => $response['response']['MerchantRequestID'],
                 'CheckoutRequestID' => $response['response']['CheckoutRequestID'],
                 'phone_number' => $request->phoneNumber,
+                ''
             ]);
         if ($transaction)
         {
