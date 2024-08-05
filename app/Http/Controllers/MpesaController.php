@@ -67,6 +67,7 @@ class MpesaController extends Controller
         // Check for mpesa Transaction with same number
         $transaction = MpesaTransactions::query()
             ->where("phone_number", $request->phoneNumber)
+            ->where('transaction_amount', $request->amount)
             ->whereDoesntHave("order")
             ->whereBetween("transaction_date", [Carbon::parse($request->dateTime), Carbon::parse($request->dateTime)->endOfDay()])
             ->first();
