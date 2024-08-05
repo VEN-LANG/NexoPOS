@@ -29,6 +29,11 @@ class AccountingSettings extends SettingsPage
                 'value' => $account->id,
             ];
         } );
+        $callBackUrl = ns()->option->get('ns_accounting_mpesa_callback_url');
+        if (empty($callBackUrl)) {
+            $callBackUrl = env("APP_URL") . "/mpesa/callback";
+            ns()->option->set('ns_accounting_mpesa_callback_url', $callBackUrl);
+        }
 
         $this->form = [
             'title' => __( 'Accounting' ),
@@ -43,14 +48,14 @@ class AccountingSettings extends SettingsPage
                     identifier: 'cash-registers',
                     label: __( 'Cash Register' ),
                     fields: SettingForm::fields(
-                        FormInput::multiselect( 
+                        FormInput::multiselect(
                             label: __( 'Allowed Cash In Account' ),
                             name: 'ns_accounting_cashin_accounts',
                             description: __( 'Define on which accounts cashin transactions are allowed' ),
                             options: $creditAccount,
                             value: ns()->option->get( 'ns_accounting_cashin_accounts' ),
                         ),
-                        FormInput::multiselect( 
+                        FormInput::multiselect(
                             label: __( 'Allowed Cash Out Account' ),
                             name: 'ns_accounting_cashout_accounts',
                             description: __( 'Define on which accounts cashout transactions are allowed' ),
@@ -103,7 +108,8 @@ class AccountingSettings extends SettingsPage
                             label: __( 'Mpesa Callback URL' ),
                             name: 'ns_accounting_mpesa_callback_url',
                             description: __( 'Enter the Mpesa Callback URL' ),
-                            value: ns()->option->get( 'ns_accounting_mpesa_callback_url' ),
+                            value: $callBackUrl,
+                            disabled: true,
                         ),
                         FormInput::text(
                             label: __( 'Mpesa Pass Key' ),
