@@ -18,7 +18,7 @@ export default {
     name: 'ns-pos-payment',
     props: [ 'popup' ],
     data() {
-        return { 
+        return {
             paymentTypesSubscription: null,
             paymentsType: [],
             order: null,
@@ -26,7 +26,7 @@ export default {
             orderSubscription: null,
             currentPaymentComponent: null,
             activePaymentSubscription: null,
-        } 
+        }
     },
     computed: {
         expectedPayment() {
@@ -62,11 +62,11 @@ export default {
         this.orderSubscription.unsubscribe();
 
         nsHooks.doAction( 'ns-pos-payment-destroyed', this );
-    },    
+    },
     methods: {
-        __, 
+        __,
         nsCurrency,
-        
+
         resolveIfQueued,
 
         loadPaymentComponent( payment ) {
@@ -128,7 +128,7 @@ export default {
         },
         submitOrder( data = {}) {
             const popup     =   Popup.show( nsPosLoadingPopupVue );
-            
+
             try {
 
                 const order     =   { ...POS.order.getValue(), ...data };
@@ -140,19 +140,19 @@ export default {
                     nsSnackBar.success( result.message ).subscribe();
 
                     POS.printOrderReceipt( result.data.order, 'silent' );
-    
+
                     // close payment popup
                     this.popup.close();
                 }, ( error ) => {
                     // close loading popup
                     popup.close();
-    
+
                     // show error message
                     nsSnackBar.error( error.message ).subscribe();
                 });
             } catch( exception ) {
                 popup.close();
-    
+
                 // show error message
                 nsSnackBar.error( error.message ).subscribe();
             }
@@ -171,7 +171,7 @@ export default {
                     <li @click="showPayment = true" :class="showPayment ? 'ns-visible' : ''" class="cursor-pointer py-2 px-3 ns-payment-list border-t mt-4 flex items-center justify-between">
                         <span>{{ __( 'Payment List' ) }}</span>
                         <span class="px-2 rounded-full h-8 w-8 flex items-center justify-center ns-label">{{ order.payments.length }}</span>
-                    </li> 
+                    </li>
                 </ul>
                 <ns-close-button class="lg:hidden" @click="closePopup()"></ns-close-button>
             </div>
@@ -186,10 +186,10 @@ export default {
                         </div>
                     </div>
                     <div class="flex flex-auto ns-payment-wrapper overflow-y-auto" v-if="! showPayment">
-                        <component 
-                            @submit="submitOrder()" 
-                            :label="activePayment.label" 
-                            :identifier="activePayment.identifier" 
+                        <component
+                            @submit="submitOrder()"
+                            :label="activePayment.label"
+                            :identifier="activePayment.identifier"
                             v-bind:is="currentPaymentComponent"></component>
                     </div>
                     <div class="flex flex-auto ns-payment-wrapper overflow-y-auto p-2 flex-col" v-if="showPayment">
