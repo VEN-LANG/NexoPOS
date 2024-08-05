@@ -33,7 +33,8 @@ class MpesaController extends Controller
         if ($transaction)
         {
             return [
-                'status' => 'success',
+                'success' => true,
+                'transactionDateTime' => $transaction->created_at,
                 'transaction' => $transaction
             ];
         }
