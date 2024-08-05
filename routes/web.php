@@ -2,6 +2,7 @@
 
 use App\Events\BeforeStartWebRouteEvent;
 use App\Http\Controllers\DevController;
+use App\Http\Controllers\MpesaTransactionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,7 @@ $domain = pathinfo( env( 'APP_URL' ) );
  * this will be performmed here.
  */
 BeforeStartWebRouteEvent::dispatch();
+Route::post("/mpesa/callback", [MpesaTransactionsController::class, 'handleCallback']);
 
 /**
  * By default, wildcard is disabled
