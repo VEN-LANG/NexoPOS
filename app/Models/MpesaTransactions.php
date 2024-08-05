@@ -17,8 +17,14 @@ class MpesaTransactions extends Model
         'transaction_code',
         'phone_number',
         'transaction_date',
-        'transaction_amount'
+        'transaction_amount',
+        "order_id"
     ];
+
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'id', 'order_id');
+    }
 
 
 }

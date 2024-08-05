@@ -19,7 +19,11 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->date('transaction_date')->nullable();
             $table->decimal('transaction_amount', 10, 2)->nullable();
+            // If the transaction has order_id, it means it was initiated from the POS and it already used
+            $table->unsignedBigInteger("order_id")->nullable();
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('nexopos_orders')->onDelete('cascade');
         });
     }
 
