@@ -62,6 +62,7 @@ class MpesaController extends Controller
         $request->validate([
             'phoneNumber' => 'required',
             'dateTime' => 'required',
+            'amount' => 'required',
         ]);
         // Check for mpesa Transaction with same number
         $transaction = MpesaTransactions::query()
