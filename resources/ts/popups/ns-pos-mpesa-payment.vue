@@ -63,6 +63,9 @@
             <button @click="makeMpesaPayment()" class="bg-green-500 text-white text-xl md:text-3xl p-2 rounded-md shadow-md hover:bg-green-600 w-full">
               {{ __('Pay with Mpesa') }}
             </button>
+            <button @click="syncMpesaPayment()" class="bg-green-500 text-white text-xl md:text-3xl p-2 rounded-md shadow-md hover:bg-green-600 w-full">
+              {{ __('Refresh Payment') }}
+            </button>
           </div>
         </div>
       </div>
@@ -99,6 +102,7 @@ export default {
       allSelected: true,
       phoneNumber: '',
       paidAmount: 0,
+      transactionDateTime: undefined,
       focused: false, // Track if phone number input is focused
       keys: [
         ...([7, 8, 9].map(key => ({ identifier: key, value: key }))),
@@ -271,6 +275,18 @@ export default {
         this.backValue = '';
       }
     },
+    async syncMpesaPayment(){
+      try {
+        const response = await axios.post('/api/mpesa/stkpush', {
+          amount: this.backValue, // Changed to use backValue
+          phoneNumber: this.phoneNumber,
+          dateTime: this.transactionDateTime,
+        });
+      }catch (error){
+
+      }
+
+    },
     async makeMpesaPayment() {
       try {
         const response = await axios.post('/api/mpesa/stkpush', {
@@ -281,6 +297,7 @@ export default {
         if (response.data.success) {
           nsSnackBar.success(__('STK Push initiated. Please check your phone to complete the payment.')).subscribe();
           this.paidAmount = parseFloat(this.backValue / this.number);
+          this.transactionDateTime = response.data.transactionDateTime;
         } else {
           let errorMessage = __('Failed to initiate STK Push. Please try again.');
           if (response.data.errorCode) {
