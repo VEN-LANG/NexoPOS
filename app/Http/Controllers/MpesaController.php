@@ -29,7 +29,7 @@ class MpesaController extends Controller
                 'MerchantRequestID' => $response['response']['MerchantRequestID'],
                 'CheckoutRequestID' => $response['response']['CheckoutRequestID'],
                 'phone_number' => $request->phoneNumber,
-                'transaction_amount' => $response->amount,
+                'transaction_amount' => $request->amount,
             ]);
         if ($transaction)
         {
