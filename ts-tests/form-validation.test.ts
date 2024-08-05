@@ -1,3 +1,4 @@
+// @ts-ignore
 import {describe, expect, test} from '@jest/globals';
 
 import FormValidation from "../resources/ts/libraries/form-validation";
