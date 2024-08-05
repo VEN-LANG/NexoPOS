@@ -283,7 +283,8 @@ export default {
           dateTime: this.transactionDateTime,
         });
       }catch (error){
-
+        let errorMessage = __('An error occurred syncing payments for this order.');
+        nsSnackBar.error(errorMessage).subscribe();
       }
 
     },
