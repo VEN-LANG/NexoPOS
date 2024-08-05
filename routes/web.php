@@ -25,7 +25,7 @@ $domain = pathinfo( env( 'APP_URL' ) );
  */
 BeforeStartWebRouteEvent::dispatch();
 
-Route::post("/mpesa/callback", [MpesaTransactionsController::class, 'handleCallback']);
+include dirname( __DIR__ ) . '/routes/web/mpesa.php';
 
 /**
  * By default, wildcard is disabled
