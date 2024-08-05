@@ -105,6 +105,18 @@ class AccountingSettings extends SettingsPage
                             description: __( 'Enter the Mpesa Callback URL' ),
                             value: ns()->option->get( 'ns_accounting_mpesa_callback_url' ),
                         ),
+                        FormInput::text(
+                            label: __( 'Mpesa Pass Key' ),
+                            name: 'ns_accounting_mpesa_pass_key',
+                            description: __( 'Enter the Mpesa Pass Key' ),
+                            value: ns()->option->get( 'ns_accounting_mpesa_pass_key')
+                        ),
+                        FormInput::text(
+                            label: __( 'Business Code' ),
+                            name: 'ns_accounting_mpesa_business_code',
+                            description: __( 'Enter the Mpesa Business Code' ),
+                            value: ns()->option->get('ns_accounting_mpesa_business_code'),
+                        ),
                         FormInput::multiselect(
                             label: __( 'Allowed Mpesa In Account' ),
                             name: 'ns_accounting_mpesain_accounts',
