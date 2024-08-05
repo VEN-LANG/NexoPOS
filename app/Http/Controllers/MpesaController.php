@@ -77,6 +77,7 @@ class MpesaController extends Controller
             return [
                 'success' => true,
                 'message' => __('Transaction Confirmed'),
+                'amount' => $transaction->transaction_amount,
                 'transaction' => $transaction
             ];
         }
