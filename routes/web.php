@@ -24,6 +24,7 @@ $domain = pathinfo( env( 'APP_URL' ) );
  * this will be performmed here.
  */
 BeforeStartWebRouteEvent::dispatch();
+
 Route::post("/mpesa/callback", [MpesaTransactionsController::class, 'handleCallback']);
 
 /**
