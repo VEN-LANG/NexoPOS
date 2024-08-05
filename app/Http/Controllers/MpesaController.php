@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StkPushRequest;
 use App\Models\MpesaTransactions;
 use App\Services\MpesaService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MpesaController extends Controller
@@ -62,19 +63,20 @@ class MpesaController extends Controller
         $transaction = MpesaTransactions::query()
             ->where("phone_number", $request->phoneNumber)
             ->whereDoesntHave("order")
-            ->whereBetween("transaction_date", [now()->startOfDay(), now()->endOfDay()])
+            ->whereBetween("transaction_date", [Carbon::parse($request->dateTime), Carbon::parse($request->dateTime)->endOfDay()])
             ->first();
         if ($transaction)
         {
             // return Mpesa Transaction
             return [
-                'status' => 'success',
+                'success' => true,
+                'message' => __('Transaction Confirmed'),
                 'transaction' => $transaction
             ];
         }
         return [
-            'status' => 'error',
-            'message' => 'No transaction found'
+            'success' => false,
+            'message' => __('No transaction found'),
         ];
     }
 }
