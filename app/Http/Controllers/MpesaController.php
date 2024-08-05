@@ -40,7 +40,7 @@ class MpesaController extends Controller
             ];
         }
         return [
-            'status' => 'error',
+            'success' => 'error',
             'message' => 'Failed to create transaction'
         ];
     }
