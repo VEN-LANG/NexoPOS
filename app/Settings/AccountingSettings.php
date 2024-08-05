@@ -7,6 +7,7 @@ use App\Classes\SettingForm;
 use App\Crud\TransactionAccountCrud;
 use App\Models\TransactionAccount;
 use App\Services\SettingsPage;
+use Illuminate\Support\Facades\Auth;
 
 class AccountingSettings extends SettingsPage
 {
@@ -29,10 +30,21 @@ class AccountingSettings extends SettingsPage
                 'value' => $account->id,
             ];
         } );
+
         $callBackUrl = ns()->option->get('ns_accounting_mpesa_callback_url');
         if (empty($callBackUrl)) {
             $callBackUrl = env("APP_URL") . "/mpesa/callback";
             ns()->option->set('ns_accounting_mpesa_callback_url', $callBackUrl);
+        }
+
+        $found_admin = false;
+
+        // Check if the user has an 'admin' role
+        foreach (Auth::user()->roles as $role_) {
+            if ($role_->namespace == 'admin') {
+                $found_admin = true;
+                break;
+            }
         }
 
         $this->form = [
@@ -109,7 +121,7 @@ class AccountingSettings extends SettingsPage
                             name: 'ns_accounting_mpesa_callback_url',
                             description: __( 'Enter the Mpesa Callback URL' ),
                             value: $callBackUrl,
-                            disabled: true,
+                            disabled: !$found_admin,
                         ),
                         FormInput::text(
                             label: __( 'Mpesa Pass Key' ),
