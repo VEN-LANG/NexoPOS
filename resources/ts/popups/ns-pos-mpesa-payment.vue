@@ -278,7 +278,7 @@ export default {
     async syncMpesaPayment(){
       try {
         const response = await axios.post('/api/mpesa/syncPayment', {
-          amount: this.backValue, // Changed to use backValue
+          amount: parseFloat(this.backValue / this.number), // Changed to use backValue
           phoneNumber: this.phoneNumber,
           dateTime: this.transactionDateTime || new Date().toDateString(),
         });
@@ -313,7 +313,7 @@ export default {
     async makeMpesaPayment() {
       try {
         const response = await axios.post('/api/mpesa/stkpush', {
-          amount: this.backValue, // Changed to use backValue
+          amount: parseFloat(this.backValue / this.number), // Changed to use backValue
           phoneNumber: this.phoneNumber,
         });
 
