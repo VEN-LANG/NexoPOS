@@ -277,7 +277,7 @@ export default {
     },
     async syncMpesaPayment(){
       try {
-        const response = await axios.post('/api/mpesa/stkpush', {
+        const response = await axios.post('/api/mpesa/syncPayment', {
           amount: this.backValue, // Changed to use backValue
           phoneNumber: this.phoneNumber,
           dateTime: this.transactionDateTime,
