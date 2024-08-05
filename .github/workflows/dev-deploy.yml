@@ -69,6 +69,8 @@ jobs:
             **/vendor/**
             **/resources/js/**
             **/resources/css/**
+            **/resources/scss/**
+            **/resources/ts/**
             **/ts-tests/**
             **/.do*
             **/.vscode/**
