@@ -283,10 +283,10 @@ export default {
           dateTime: this.transactionDateTime,
         });
         if(response.data.success){
-          nsSnackBar.success(__('Payment successfully synced/refreshed.'))
+          nsSnackBar.success(__('Payment successfully synced/refreshed.')).subscribe()
           this.paidAmount = response.data.amount;
         }else{
-          nsSnackBar.error(__(response.data.message));
+          nsSnackBar.error(__(response.data.message)).subscribe();
         }
       }catch (error){
         let errorMessage = __('An error occurred syncing payments for this order.');
