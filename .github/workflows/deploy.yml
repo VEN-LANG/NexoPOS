@@ -72,6 +72,8 @@ jobs:
             **/resources/js/**
             **/resources/css/**
             **/ts-tests/**
+            **/.do*
+            **/.vscode/**
 
 
   ssh-commands:
