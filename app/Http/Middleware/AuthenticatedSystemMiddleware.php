@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticatedSystemMiddleware
@@ -17,15 +18,20 @@ class AuthenticatedSystemMiddleware
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        // Example license check logic
+        // license check logic
         $licenseKey = config('app.app_license_key');
 
-        if ($this->isLicenseValid($licenseKey)) {
+        $domain = $request->getHost(); // Get the domain from the request
+
+        $validity = $this->isLicenseValid($licenseKey, $domain);
+
+        dd($validity);
+        if ($validity['status']) {
             return $next($request);
         }
         $message = [
             'name' => 'license',
-            'message' => __( 'Invalid License Key' ),
+            'message' => __( $validity['message'] ),
             'status' => 'error',
         ];
         return response()->json( $message, 403 );
@@ -35,12 +41,30 @@ class AuthenticatedSystemMiddleware
      * Check if the license key is valid.
      *
      * @param string $licenseKey
-     * @return bool
+     * @return array
      */
-    protected function isLicenseValid($licenseKey): bool
+    protected function isLicenseValid($licenseKey, $domain): array
     {
-        // Implement your license validation logic here
-        // This is just an example
-        return $licenseKey === 'valid-license-key';
+        $url = ns()->envEditor->get('APP_LICENSE_MANAGER', 'http://127.0.0.1:8888').'/api/validate/license';
+
+        try {
+            $response = Http::get($url, [
+                'domain' => $domain,
+                'license_key' => $licenseKey,
+            ]);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+                return $responseData;
+            } else {
+                return $response->json();
+            }
+        } catch (\Exception $e) {
+            return
+                [
+                'status'=> false,
+                'message'=>'License validation request failed with: '. $e->getMessage()
+            ];
+        }
     }
 }
