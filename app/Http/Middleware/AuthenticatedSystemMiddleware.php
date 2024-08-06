@@ -23,8 +23,12 @@ class AuthenticatedSystemMiddleware
         if ($this->isLicenseValid($licenseKey)) {
             return $next($request);
         }
-
-        return response()->json(['error' => 'Invalid license key'], 403);
+        $message = [
+            'name' => 'license',
+            'message' => __( 'Invalid License Key' ),
+            'status' => 'error',
+        ];
+        return response()->json( $message, 403 );
     }
 
     /**
