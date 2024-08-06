@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SetupController;
+use App\Http\Middleware\AuthenticatedSystemMiddleware;
 use App\Http\Middleware\ClearRequestCacheMiddleware;
 use App\Http\Middleware\InstalledStateMiddleware;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -45,11 +46,16 @@ include_once dirname( __FILE__ ) . '/api/update.php';
 
 Route::prefix( 'setup' )
     ->middleware([
-        ClearRequestCacheMiddleware::class, \App\Http\Middleware\AuthenticatedSystemMiddleware::class
+        ClearRequestCacheMiddleware::class
     ])
     ->group( function () {
-        Route::get( 'check-database', [ SetupController::class, 'checkExistingCredentials' ] );
-        Route::post( 'database', [ SetupController::class, 'checkDatabase' ] );
-        Route::get( 'database', [ SetupController::class, 'checkDbConfigDefined' ] );
-        Route::post( 'configuration', [ SetupController::class, 'saveConfiguration' ] );
+        Route::post('license', [SetupController::class, 'licence']);
+        Route::group([
+            'middleware' => [ClearRequestCacheMiddleware::class, AuthenticatedSystemMiddleware::class],
+        ], function () {
+            Route::get('check-database', [SetupController::class, 'checkExistingCredentials']);
+            Route::post('database', [SetupController::class, 'checkDatabase']);
+            Route::get('database', [SetupController::class, 'checkDbConfigDefined']);
+            Route::post('configuration', [SetupController::class, 'saveConfiguration']);
+        });
     } );
