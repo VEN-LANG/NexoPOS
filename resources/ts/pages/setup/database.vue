@@ -114,6 +114,9 @@ export default {
         checkDatabase( fields ) {
             return nsHttpClient.post( `/api/setup/database`, fields );
         },
+        setLicenseKey( fields ){
+
+        },
         checkExisting() {
             return nsHttpClient.get( `/api/setup/check-database` );
         },
@@ -190,6 +193,17 @@ export default {
                     validation: 'required',
                     show: ( form ) => {
                         return [ 'mysql', 'mariadb' ].includes( form.database_driver );
+                    },
+
+                },
+                {
+                    label: __('License Key'),
+                    description: __('Provide systems license key.'),
+                    name: 'license_key',
+                    value: 'valid-key',
+                    validation: 'required',
+                    show: (form) => {
+                      return ['mysql', 'mariadb'].includes(form.database_driver);
                     }
                 }
             ]);
