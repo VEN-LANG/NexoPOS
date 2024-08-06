@@ -44,6 +44,10 @@ class SetupController extends Controller
         return $this->setup->runMigration( $request->all() );
     }
 
+    public function licence(Request $request){
+        return $this->setup->setLicense($request->input('license_key')?? null);
+    }
+
     public function checkExistingCredentials()
     {
         try {
