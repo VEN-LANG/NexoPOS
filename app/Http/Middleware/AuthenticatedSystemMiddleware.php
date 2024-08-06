@@ -21,7 +21,7 @@ class AuthenticatedSystemMiddleware
         // license check logic
         $licenseKey = config('app.app_license_key');
 
-        $domain = $request->getHost(); // Get the domain from the request
+        $domain = $request->getSchemeAndHttpHost(); // Get the domain with scheme//$request->getHost(); // Get the domain from the request
         $validity = $this->isLicenseValid($licenseKey, $domain);
 
         if ($validity['status']) {
