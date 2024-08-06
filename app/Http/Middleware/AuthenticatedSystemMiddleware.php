@@ -25,7 +25,6 @@ class AuthenticatedSystemMiddleware
 
         $validity = $this->isLicenseValid($licenseKey, $domain);
 
-        dd($validity);
         if ($validity['status']) {
             return $next($request);
         }
