@@ -22,7 +22,6 @@ class AuthenticatedSystemMiddleware
         $licenseKey = config('app.app_license_key');
 
         $domain = $request->getHost(); // Get the domain from the request
-
         $validity = $this->isLicenseValid($licenseKey, $domain);
 
         if ($validity['status']) {
