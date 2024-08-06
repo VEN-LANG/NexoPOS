@@ -51,7 +51,7 @@ Route::prefix( 'setup' )
     ->group( function () {
         Route::post('license', [SetupController::class, 'licence']);
         Route::group([
-            'middleware' => [ClearRequestCacheMiddleware::class, AuthenticatedSystemMiddleware::class],
+            'middleware' => [AuthenticatedSystemMiddleware::class],
         ], function () {
             Route::get('check-database', [SetupController::class, 'checkExistingCredentials']);
             Route::post('database', [SetupController::class, 'checkDatabase']);
