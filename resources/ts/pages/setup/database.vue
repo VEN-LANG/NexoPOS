@@ -89,33 +89,49 @@ export default {
                     ...this.formValidation.getValue( this.firstPartFields ),
                     ...this.formValidation.getValue( this.secondPartFields ),
                 }
+                this.setLicenseKey(form.license_key).then(response => {
+                  // Handle the response from setting the license key
+                  if (response.success) {
+                    const operation  =   this.checkDatabase( form );
 
-                const operation  =   this.checkDatabase( form );
+                    operation.subscribe(
+                        result => {
+                          this.formValidation.enableFields( this.firstPartFields );
+                          this.formValidation.enableFields( this.secondPartFields );
 
-                operation.subscribe(
-                    result => {
-                        this.formValidation.enableFields( this.firstPartFields );
-                        this.formValidation.enableFields( this.secondPartFields );
+                          nsRouter.push( 'configuration' );
+                          nsSnackBar.success( result.message, __( 'OKAY' ), { duration: 5000 }).subscribe();
+                        },
+                        error => {
+                          this.formValidation.enableFields( this.firstPartFields );
+                          this.formValidation.enableFields( this.secondPartFields );
+                          this.isLoading   =  false;
 
-                        nsRouter.push( 'configuration' );
-                        nsSnackBar.success( result.message, __( 'OKAY' ), { duration: 5000 }).subscribe();
-                    },
-                    error => {
-                        this.formValidation.enableFields( this.firstPartFields );
-                        this.formValidation.enableFields( this.secondPartFields );
-                        this.isLoading   =  false;
+                          nsSnackBar.error( error.message, __( 'OKAY' ) ).subscribe();
+                        }
+                    );
+                } else {
+                  this.formValidation.enableFields(this.firstPartFields);
+                  this.formValidation.enableFields(this.secondPartFields);
+                  this.isLoading = false;
 
-                        nsSnackBar.error( error.message, __( 'OKAY' ) ).subscribe();
-                    }
-                );
+                  nsSnackBar.error(response.message, __('OKAY')).subscribe();
+                }
+              }).catch(error => {
+                this.formValidation.enableFields(this.firstPartFields);
+                this.formValidation.enableFields(this.secondPartFields);
+                this.isLoading = false;
+
+                nsSnackBar.error(error.message, __('OKAY')).subscribe();
+              });
             }
         },
 
         checkDatabase( fields ) {
             return nsHttpClient.post( `/api/setup/database`, fields );
         },
-        setLicenseKey( fields ){
-
+        setLicenseKey(licenseKey) {
+            return nsHttpClient.post(`/api/setup/license`, { license_key: licenseKey });
         },
         checkExisting() {
             return nsHttpClient.get( `/api/setup/check-database` );
