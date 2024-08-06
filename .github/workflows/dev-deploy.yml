@@ -67,10 +67,7 @@ jobs:
             **/node_modules/**
             **/tests/**
             **/vendor/**
-            **/resources/js/**
-            **/resources/css/**
-            **/resources/scss/**
-            **/resources/ts/**
+          
             **/ts-tests/**
             **/.vscode/**
 
