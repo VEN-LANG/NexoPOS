@@ -122,4 +122,6 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'app_license_key' => env('APP_LICENSE_KEY', 'valid-license-key'),
 ];
