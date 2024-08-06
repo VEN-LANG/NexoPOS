@@ -45,7 +45,7 @@ include_once dirname( __FILE__ ) . '/api/update.php';
 
 Route::prefix( 'setup' )
     ->middleware([
-        ClearRequestCacheMiddleware::class,
+        ClearRequestCacheMiddleware::class, \App\Http\Middleware\AuthenticatedSystemMiddleware::class
     ])
     ->group( function () {
         Route::get( 'check-database', [ SetupController::class, 'checkExistingCredentials' ] );
