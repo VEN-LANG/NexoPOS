@@ -338,4 +338,31 @@ class SetupService
             return response()->json( $message, 403 );
         }
     }
+
+    public function  setLicense($license)
+    {
+        if($license != null){
+            try {
+                ns()->envEditor->set( 'APP_LICENSE_KEY', $license);
+                return [
+                    'status' => 'success',
+                    'message' => __( 'License successfully set.' ),
+                ];
+            }
+            catch ( \Exception $e ) {
+                $message = [
+                    'name' => 'license',
+                    'message' => $e->getMessage(),
+                    'status' => 'error',
+                ];
+                return response()->json( $message, 403 );
+            }
+        }
+        $message = [
+            'name' => 'license',
+            'message' => 'license not set.',
+            'status' => 'error',
+        ];
+        return response()->json( $message, 403 );
+    }
 }
