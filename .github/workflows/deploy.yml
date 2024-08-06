@@ -71,7 +71,6 @@ jobs:
             **/vendor/**
             
             **/ts-tests/**
-            **/.do*
             **/.vscode/**
 
 
