@@ -339,6 +339,11 @@ class SetupService
         }
     }
 
+    /**
+     * Function to set licence if middleware is used
+     * @param $license
+     * @return array|\Illuminate\Http\JsonResponse
+     */
     public function  setLicense($license)
     {
         if($license != null){
