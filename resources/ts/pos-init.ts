@@ -847,8 +847,8 @@ export class POS {
              */
             if (order.payment_status !== 'hold') {
                 if (order.payments.length === 0 && order.total > 0 && order.total > order.tendered) {
-                    if (this.options.getValue().ns_orders_allow_partial === 'no' && this.options.getValue().ns_orders_allow_unpaid === 'no') {
-                        const message = __('Partially paid or unpaid orders are disabled.');
+                    if (this.options.getValue().ns_orders_allow_partial === 'no') {
+                        const message = __('Partially paid orders are disabled.');
                         return reject({ status: 'error', message });
                     } else if (minimalPayment >= 0) {
                         try {
