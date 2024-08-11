@@ -27,8 +27,8 @@ class MpesaController extends Controller
         $response = $mpesaService->sendStkPush($data);
         $transaction = MpesaTransactions::query()
             ->create([
-                'MerchantRequestID' => $response['response']['MerchantRequestID'],
-                'CheckoutRequestID' => $response['response']['CheckoutRequestID'],
+                'MerchantRequestID' => $response['response']->MerchantRequestID,
+                'CheckoutRequestID' => $response['response']->CheckoutRequestID,
                 'phone_number' => $request->phoneNumber,
                 'transaction_amount' => $request->amount,
             ]);
@@ -69,7 +69,7 @@ class MpesaController extends Controller
             ->where("phone_number", $request->phoneNumber)
             ->where('transaction_amount', $request->amount)
             ->whereDoesntHave("order")
-            ->whereBetween("transaction_date", [Carbon::parse($request->dateTime), Carbon::parse($request->dateTime)->endOfDay()])
+            ->whereBetween("transaction_date", [Carbon::parse($request->dateTime)->startOfDay(), Carbon::parse($request->dateTime)->endOfDay()])
             ->first();
         if ($transaction)
         {
