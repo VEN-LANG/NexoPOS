@@ -173,6 +173,9 @@ export default {
                 if(this.paidAmount !== 0) {
                   this.inputValue({identifier: 'next'});
                 }
+                else{
+                  nsSnackBar.error("Cannot add payment when mpesa paid amount is 0.").subscribe();
+                }
               }
             }
           });
