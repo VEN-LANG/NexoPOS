@@ -122,4 +122,15 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    /*|--------------------------------------------------------------------------
+    | APP LICENSE KEY
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine under which licence key is the
+    | application running on.
+    | Can also be defined in the dotenv file.
+    |
+    */
+    'app_license_key' => env('APP_LICENSE_KEY', 'valid-license-key'),
 ];

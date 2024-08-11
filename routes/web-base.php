@@ -20,6 +20,8 @@ Route::middleware( [ 'web' ] )->group( function () {
     Route::get( '/', [ HomeController::class, 'welcome' ] )->name( 'ns.welcome' );
 } );
 
+include dirname( __DIR__ ) . '/routes/web/mpesa.php';
+
 require dirname( __FILE__ ) . '/intermediate.php';
 
 Route::middleware([

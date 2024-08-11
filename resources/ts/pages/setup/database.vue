@@ -90,6 +90,25 @@ export default {
                     ...this.formValidation.getValue( this.secondPartFields ),
                 }
 
+                const licenseOperation = this.setLicenseKey(form.license_key);
+
+                licenseOperation.subscribe(
+                    result => {
+                      this.formValidation.enableFields( this.firstPartFields );
+                      this.formValidation.enableFields( this.secondPartFields );
+
+                      //nsRouter.push( 'configuration' );
+                      nsSnackBar.success( result.message, __( 'OKAY' ), { duration: 5000 }).subscribe();
+                    },
+                    error => {
+                      this.formValidation.enableFields( this.firstPartFields );
+                      this.formValidation.enableFields( this.secondPartFields );
+                      this.isLoading   =  false;
+
+                      nsSnackBar.error( error.message, __( 'OKAY' ) ).subscribe();
+                    }
+                );
+
                 const operation  =   this.checkDatabase( form );
 
                 operation.subscribe(
@@ -113,6 +132,9 @@ export default {
 
         checkDatabase( fields ) {
             return nsHttpClient.post( `/api/setup/database`, fields );
+        },
+        setLicenseKey(licenseKey) {
+            return nsHttpClient.post(`/api/setup/license`, { license_key: licenseKey });
         },
         checkExisting() {
             return nsHttpClient.get( `/api/setup/check-database` );
@@ -190,6 +212,17 @@ export default {
                     validation: 'required',
                     show: ( form ) => {
                         return [ 'mysql', 'mariadb' ].includes( form.database_driver );
+                    },
+
+                },
+                {
+                    label: __('License Key'),
+                    description: __('Provide systems license key.'),
+                    name: 'license_key',
+                    value: 'valid-key',
+                    validation: 'required',
+                    show: (form) => {
+                      return ['mysql', 'mariadb'].includes(form.database_driver);
                     }
                 }
             ]);

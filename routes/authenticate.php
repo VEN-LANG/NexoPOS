@@ -10,7 +10,9 @@ Route::get( '/sign-in', [ AuthController::class, 'signIn' ] )->name( ns()->route
 Route::get( '/auth/activate/{user}/{token}', [ AuthController::class, 'activateAccount' ] )->name( ns()->routeName( 'ns.activate-account' ) );
 Route::get( '/new-password/{user}/{token}', [ AuthController::class, 'newPassword' ] )->name( ns()->routeName( 'ns.new-password' ) );
 Route::get( '/sign-out', [ AuthController::class, 'signOut' ] )->name( ns()->routeName( 'ns.logout' ) );
-Route::post( '/auth/sign-in', [ AuthController::class, 'postSignIn' ] )->name( ns()->routeName( 'ns.login.post' ) );
+Route::post( '/auth/sign-in', [ AuthController::class, 'postSignIn' ] )->name( ns()->routeName( 'ns.login.post' ) )->middleware([
+    \App\Http\Middleware\AuthenticatedSystemMiddleware::class
+]);
 
 /**
  * should protect access with
@@ -19,7 +21,9 @@ Route::post( '/auth/sign-in', [ AuthController::class, 'postSignIn' ] )->name( n
 Route::middleware( [
     RegistrationMiddleware::class,
 ] )->group( function () {
-    Route::post( '/auth/sign-up', [ AuthController::class, 'postSignUp' ] )->name( ns()->routeName( 'ns.register.post' ) );
+    Route::post( '/auth/sign-up', [ AuthController::class, 'postSignUp' ] )->name( ns()->routeName( 'ns.register.post' ) )->middleware([
+        \App\Http\Middleware\AuthenticatedSystemMiddleware::class
+    ]);
     Route::get( '/sign-up', [ AuthController::class, 'signUp' ] )->name( ns()->routeName( 'ns.register' ) );
 } );
 

@@ -77,8 +77,8 @@ class MpesaService
             // Update the other fields such as transaction code and etc
             $paymentData = [
                 'transaction_code' => (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][1]['Value'],
-                'phone_number' => (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value'],
-                'transaction_date' => \DateTime::createFromFormat('YmdHis', (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][2]['Value']),
+                'phone_number' => (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value'],
+                'transaction_date' => \DateTime::createFromFormat('YmdHis', (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value']),
                 'transaction_amount' => (string)$response['Body']['stkCallback']['CallbackMetadata']['Item'][0]['Value'],
             ];
             Log::info("Payment Data: ", [

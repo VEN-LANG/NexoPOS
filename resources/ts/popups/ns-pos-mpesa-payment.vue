@@ -43,7 +43,7 @@
             </div>
             <div
                 @click="makeFullPayment()"
-                class="hover:bg-green-500 col-span-3 bg-success-secondary border-success-tertiary text-2xl text-white border h-16 flex items-center justify-center cursor-pointer">
+                class="hover:bg-green-500 col-span-3 bg-success-secondary border-success-tertiary text-2xl text-black border h-16 flex items-center justify-center cursor-pointer">
               {{ __('Full Payment') }}
             </div>
           </div>
@@ -170,7 +170,12 @@ export default {
                 this.$emit('submit');
                 this.backValue = 0;
               } else {
-                this.inputValue({ identifier: 'next' });
+                if(this.paidAmount !== 0) {
+                  this.inputValue({identifier: 'next'});
+                }
+                else{
+                  nsSnackBar.error("Cannot add payment when mpesa paid amount is 0.").subscribe();
+                }
               }
             }
           });
@@ -241,7 +246,7 @@ export default {
     inputValue(key) {
       if (key.identifier === 'next') {
         POS.addPayment({
-          value: parseFloat(this.backValue / this.number),
+          value: this.paidAmount,
           identifier: this.identifier,
           selected: false,
           label: this.label,
@@ -285,6 +290,7 @@ export default {
         if(response.data.success){
           nsSnackBar.success(__('Payment successfully synced/refreshed.')).subscribe()
           this.paidAmount = response.data.amount;
+          this.inputValue({ identifier: 'next' })
         }else{
           nsSnackBar.error(__(response.data.message)).subscribe();
         }
