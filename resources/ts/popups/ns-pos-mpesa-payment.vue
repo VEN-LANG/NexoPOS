@@ -241,7 +241,7 @@ export default {
     inputValue(key) {
       if (key.identifier === 'next') {
         POS.addPayment({
-          value: parseFloat(this.backValue / this.number),
+          value: this.paidAmount,
           identifier: this.identifier,
           selected: false,
           label: this.label,
@@ -285,6 +285,7 @@ export default {
         if(response.data.success){
           nsSnackBar.success(__('Payment successfully synced/refreshed.')).subscribe()
           this.paidAmount = response.data.amount;
+          this.inputValue({ identifier: 'next' })
         }else{
           nsSnackBar.error(__(response.data.message)).subscribe();
         }
