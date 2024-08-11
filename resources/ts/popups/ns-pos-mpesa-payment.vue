@@ -43,7 +43,7 @@
             </div>
             <div
                 @click="makeFullPayment()"
-                class="hover:bg-green-500 col-span-3 bg-success-secondary border-success-tertiary text-2xl text-white border h-16 flex items-center justify-center cursor-pointer">
+                class="hover:bg-green-500 col-span-3 bg-success-secondary border-success-tertiary text-2xl text-black border h-16 flex items-center justify-center cursor-pointer">
               {{ __('Full Payment') }}
             </div>
           </div>
