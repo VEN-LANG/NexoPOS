@@ -25,8 +25,6 @@ $domain = pathinfo( env( 'APP_URL' ) );
  */
 BeforeStartWebRouteEvent::dispatch();
 
-include dirname( __DIR__ ) . '/routes/web/mpesa.php';
-
 /**
  * By default, wildcard is disabled
  * on the system. In order to enable it, the user
