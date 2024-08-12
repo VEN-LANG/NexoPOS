@@ -66,8 +66,7 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/tests/**
-            **/vendor/**
-          
+            **/vendor/**          
             **/ts-tests/**
             **/.vscode/**
 
