@@ -12,6 +12,29 @@ class StkPushRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Clean phone number on request
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $phoneNumber = $this->input('phoneNumber');
+
+        // Remove the '+' if it exists
+        $phoneNumber = ltrim($phoneNumber, '+');
+
+        // Replace '07' or '01' at the start with '2547' or '2541'
+        if (preg_match('/^07/', $phoneNumber)) {
+            $phoneNumber = preg_replace('/^07/', '2547', $phoneNumber);
+        } elseif (preg_match('/^01/', $phoneNumber)) {
+            $phoneNumber = preg_replace('/^01/', '2541', $phoneNumber);
+        }
+
+        // Update the input with the cleaned phone number
+        $this->merge([
+            'phoneNumber' => $phoneNumber,
+        ]);
+    }
     public function rules()
     {
         return [
