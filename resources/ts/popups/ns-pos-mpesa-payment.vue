@@ -246,13 +246,17 @@ export default {
     },
     inputValue(key) {
       if (key.identifier === 'next') {
-        POS.addPayment({
-          value: this.paidAmount,
-          identifier: this.identifier,
-          selected: false,
-          label: this.label,
-          readonly: false,
-        });
+        if(this.paidAmount > 0) {
+          POS.addPayment({
+            value: this.paidAmount,
+            identifier: this.identifier,
+            selected: false,
+            label: this.label,
+            readonly: false,
+          });
+        }else{
+          nsSnackBar.error("Cannot add payment when no confirmed mpesa amount.").subscribe();
+        }
         this.backValue = '0';
         this.paidAmount = 0;
       } else if (key.identifier === 'backspace') {
