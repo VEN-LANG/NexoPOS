@@ -214,21 +214,25 @@ export default {
             .replace('{paymentType}', this.label)
             .replace('{total}', nsCurrency(this.order.total)),
         onAction: (action) => {
-          if (action) {
-            const order = POS.order.getValue();
+          nsSnackBar.error("Full mpesa payments are not supported as of now!").subscribe();
+          // To enable set this as true
+          if (false) {
+            if (action) {
+              const order = POS.order.getValue();
 
-            if (order.tendered < order.total) {
-              POS.addPayment({
-                value: this.order.total - order.tendered,
-                identifier: this.identifier,
-                selected: false,
-                label: this.label,
-                readonly: false,
-              });
+              if (order.tendered < order.total) {
+                POS.addPayment({
+                  value: this.order.total - order.tendered,
+                  identifier: this.identifier,
+                  selected: false,
+                  label: this.label,
+                  readonly: false,
+                });
+              }
+
+              this.$emit('submit');
+              this.backValue = '0';
             }
-
-            this.$emit('submit');
-            this.backValue = '0';
           }
         }
       });
