@@ -254,6 +254,7 @@ export default {
           readonly: false,
         });
         this.backValue = '0';
+        this.paidAmount = 0;
       } else if (key.identifier === 'backspace') {
         if (this.allSelected) {
           this.backValue = '0';
