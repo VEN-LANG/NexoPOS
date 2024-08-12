@@ -170,7 +170,7 @@ export default {
                 this.$emit('submit');
                 this.backValue = 0;
               } else {
-                if(this.paidAmount !== 0) {
+                if(this.paidAmount > 0) {
                   this.inputValue({identifier: 'next'});
                 }
                 else{
