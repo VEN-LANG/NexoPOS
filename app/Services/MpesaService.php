@@ -13,6 +13,7 @@ class MpesaService
     private  Mpesa $mpesa;
     private string $passKey;
     private string $businessCode;
+    private string $transactionGateway;
     public function __construct()
     {
         $this->mpesa = new Mpesa();
@@ -23,6 +24,7 @@ class MpesaService
         $this->callBackUrl = ns()->option->get('ns_accounting_mpesa_callback_url');
         $this->passKey = ns()->option->get('ns_accounting_mpesa_pass_key');
         $this->businessCode = ns()->option->get('ns_accounting_mpesa_business_code');
+        $this->transactionGateway = ns()->option->get('ns_accounting_mpesa_transaction_gateway');
 
         $this->mpesa = $this->mpesa->setCredentials($credentials['consumer_key'], $credentials['consumer_secret']);
     }

@@ -161,11 +161,11 @@ class AccountingSettings extends SettingsPage
                             value: ns()->option->get( 'ns_accounting_mpesaallowed_accounts' ),
                         ),
                         FormInput::select(
-                            label: __('Mpesa Transaction Type'),
-                            name: 'ns_accounting_mpesa_transaction_type',
-                            description: __( 'Select transaction type' ),
+                            label: __('Mpesa Transaction Gateway'),
+                            name: 'ns_accounting_mpesa_transaction_gateway',
+                            description: __( 'Select transaction Gateway' ),
                             options: [['label' => __('Safaricom Till'), 'value'=> __('safaricom_till')], ['label' => __('Kopo Kopo Till'), 'value'=> __('kopo_kopo_till')],],
-                            value: ns()->option->get( 'ns_accounting_mpesa_transaction_type' ),
+                            value: ns()->option->get( 'ns_accounting_mpesa_transaction_gateway' ),
                         )
                     )
                 )
