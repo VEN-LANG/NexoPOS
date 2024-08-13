@@ -135,18 +135,22 @@ class AccountingSettings extends SettingsPage
                             description: __( 'Enter the Mpesa Business Code' ),
                             value: ns()->option->get('ns_accounting_mpesa_business_code'),
                         ),
-                        FormInput::multiselect(
+                        FormInput::searchSelect(
                             label: __( 'Allowed Mpesa In Account' ),
                             name: 'ns_accounting_mpesain_accounts',
                             description: __( 'Define on which accounts Mpesa in transactions are allowed' ),
                             options: $creditAccount,
+                            component: 'nsCrudForm',
+                            props: TransactionAccountCrud::getFormConfig(),
                             value: ns()->option->get( 'ns_accounting_mpesain_accounts' ),
                         ),
-                        FormInput::multiselect(
+                        FormInput::searchSelect(
                             label: __( 'Allowed Mpesa Out Account' ),
                             name: 'ns_accounting_mpesaout_accounts',
                             description: __( 'Define on which accounts mpesaout transactions are allowed' ),
                             options: $debitAccounts,
+                            component: 'nsCrudForm',
+                            props: TransactionAccountCrud::getFormConfig(),
                             value: ns()->option->get( 'ns_accounting_mpesaout_accounts' ),
                         ),
                         FormInput::select(
