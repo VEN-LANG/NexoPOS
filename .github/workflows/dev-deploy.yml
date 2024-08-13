@@ -44,6 +44,8 @@ jobs:
             sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/g" .env
           fi
           sed -i "s/SESSION_DOMAIN=.*/SESSION_DOMAIN=${{ secrets.DEV_SESSION_DOMAIN }}/g" .env || echo "SESSION_DOMAIN=${{ secrets.DEV_SESSION_DOMAIN }}" >> .env
+          sed -i "s/SESSION_COOKIE=.*/SESSION_COOKIE=nexo_dev_session/g" .env || echo "SESSION_COOKIE=nexo_dev_session" >> .env
+          sed -i "s/SANCTUM_STATEFUL_DOMAINS=.*/SANCTUM_STATEFUL_DOMAINS=${{ secrets.DEV_SESSION_DOMAIN }}/g" .env || echo "SANCTUM_STATEFUL_DOMAINS=${{ secrets.DEV_SESSION_DOMAIN }}" >> .env
       - name: Install Dependencies & Build Project
         run: |
           npm install
@@ -66,8 +68,7 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/tests/**
-            **/vendor/**
-          
+            **/vendor/**          
             **/ts-tests/**
             **/.vscode/**
 

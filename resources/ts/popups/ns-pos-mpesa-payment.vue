@@ -169,8 +169,9 @@ export default {
               if (this.backValue === '') {
                 this.$emit('submit');
                 this.backValue = 0;
+                this.paidAmount = 0;
               } else {
-                if(this.paidAmount !== 0) {
+                if(this.paidAmount > 0) {
                   this.inputValue({identifier: 'next'});
                 }
                 else{
@@ -213,21 +214,25 @@ export default {
             .replace('{paymentType}', this.label)
             .replace('{total}', nsCurrency(this.order.total)),
         onAction: (action) => {
-          if (action) {
-            const order = POS.order.getValue();
+          nsSnackBar.error("Full mpesa payments are not supported as of now!").subscribe();
+          // To enable set this as true
+          if (false) {
+            if (action) {
+              const order = POS.order.getValue();
 
-            if (order.tendered < order.total) {
-              POS.addPayment({
-                value: this.order.total - order.tendered,
-                identifier: this.identifier,
-                selected: false,
-                label: this.label,
-                readonly: false,
-              });
+              if (order.tendered < order.total) {
+                POS.addPayment({
+                  value: this.order.total - order.tendered,
+                  identifier: this.identifier,
+                  selected: false,
+                  label: this.label,
+                  readonly: false,
+                });
+              }
+
+              this.$emit('submit');
+              this.backValue = '0';
             }
-
-            this.$emit('submit');
-            this.backValue = '0';
           }
         }
       });
@@ -245,14 +250,19 @@ export default {
     },
     inputValue(key) {
       if (key.identifier === 'next') {
-        POS.addPayment({
-          value: this.paidAmount,
-          identifier: this.identifier,
-          selected: false,
-          label: this.label,
-          readonly: false,
-        });
+        if(this.paidAmount > 0) {
+          POS.addPayment({
+            value: this.paidAmount,
+            identifier: this.identifier,
+            selected: false,
+            label: this.label,
+            readonly: false,
+          });
+        }else{
+          nsSnackBar.error("Cannot add payment when no confirmed mpesa amount.").subscribe();
+        }
         this.backValue = '0';
+        this.paidAmount = 0;
       } else if (key.identifier === 'backspace') {
         if (this.allSelected) {
           this.backValue = '0';
